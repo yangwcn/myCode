@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3.0-mapper.dtd">
+<!-- namespace命名空间，做sql隔离 -->
+<mapper namespace="test">
+    <!--
+        id:sql语句唯一标识
+        parameterType:指定传入参数类型(对应javaBean类型，写原始型会自动包装为包装类)
+        resultType：返回结果类型
+        #{}:占位符号，起到占位作用，如果传入的是原始型，那么括号中的变量名称可以随意定义
+     -->
+    <select id="findUserByName" parameterType="String" resultType="web.bean.User">
+        select * from user where name=#{name}
+    </select>
+</mapper>

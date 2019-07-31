@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="web.dao.HotalDAO">
+    <resultMap id="myHotal" type="web.bean.Hotel">
+        <result column="id" property="hotelId" />
+        <result column="hotel_name" property="hotelName" />
+        <result column="hotel_address" property="hotelAddress" />
+        <result column="price" property="price" />
+        <association property="city" javaType="web.bean.City">
+            <result column="city_code" property="cityCode" />
+            <result column="city_name" property="cityName" />
+        </association>
+    </resultMap>
+    <select id="getHotelById" resultMap="myHotal">
+        select h.id,h.hotel_name,h.hotel_address,h.price,c.city_code,c.city_name
+        from hotel h,city c where h.id=#{hotelId} and h.city_code = c.city_code
+    </select>
+
+    <resultMap id="myCity" type="web.bean.City">
+        <result column="city_code" property="cityCode" />
+        <result column="city_name" property="cityName" />
+        <collection property="hotelList" ofType="web.bean.Hotel">
+            <result column="id" property="hotelId" />
+            <result column="hotel_name" property="hotelName" />
+            <result column="hotel_address" property="hotelAddress" />
+            <result column="price" property="price" />
+        </collection>
+    </resultMap>
+    <select id="getCityHotel" resultMap="myCity">
+        select h.id,h.hotel_name,h.hotel_address,h.price,c.city_code,c.city_name
+        from hotel h,city c where c.city_code=#{cityCode} and h.city_code = c.city_code
+    </select>
+    <select id="getHotelByMap" resultType="web.bean.Hotel">
+        select id as hotelId,hotel_name as hotelName, hotel_address as hotelAddress, price
+        from hotel where id=#{hotelId} and price = #{price}
+    </select>
+
+    <update id="updateHotel" parameterType="web.bean.Hotel">
+        update hotel set
+        price=#{price} where id =#{hotelId}
+    </update>
+    <!-- public void insertHotel(Hotel hotel); -->
+    <insert id="insertHotel" parameterType="web.bean.Hotel"  useGeneratedKeys="true" keyProperty="id">
+        insert into hotel(hotel_name,hotel_address,price)
+        value(#{hotelName},#{hotelAddress},#{price})
+    </insert>
+    <!-- public void deleteHotel(Integer i); -->
+    <delete id="deleteHotel">
+        delete from hotel where id=#{hotelId}
+    </delete>
+</mapper>

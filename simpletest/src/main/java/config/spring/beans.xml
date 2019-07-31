@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <bean name="User" class="web.bean.User">
+        <property name="name" value="yangwcn"></property>
+    </bean>
+    <!--<bean name="log" class="web.aop.Log"></bean>
+    <aop:config>
+        <aop:aspect id="myaspect" ref="log">
+            <aop:pointcut id="myp" expression="execution(* web.bean.User.getName(..))"></aop:pointcut>
+            <aop:before pointcut-ref="myp" method="before"></aop:before>
+            <aop:after pointcut-ref="myp" method="after"></aop:after>
+        </aop:aspect>
+    </aop:config>-->
+</beans>

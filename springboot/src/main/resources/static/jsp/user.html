@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>user</title>
+</head>
+<body>
+    <div>
+        <div>
+            <h3>添加</h3>
+            <span>姓名：</span><input name="addname" /><span>|</span>
+            <span>密码：</span><input name="addpassword" />
+            <button id="add">添加</button>
+        </div>
+        <div>
+            <h3>删除</h3>
+            <span>姓名：</span><input name="deletename" />
+            <button id="delele">删除</button>
+        </div>
+        <div>
+            <h3>修改密码</h3>
+            <span>姓名：</span><input name="updatename" />
+            <span>密码：</span><input name="updatepassword" />
+            <button id="update">修改</button>
+        </div>
+        <div>
+            <button id="all">显示所有</button>
+            <text name="all"></text>
+        </div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    $("#add").click(function () {
+        var name = $("input[name='addname']").val();
+        var password = $("input[name='addname']").val();
+        var data = {
+            name : name,
+            password : password
+        }
+        $.ajax({
+            url : "/st/add.do",
+            data : data,
+            success : function(data){
+                console.log(data);
+            }
+        })
+    })
+</script>
+</html>
