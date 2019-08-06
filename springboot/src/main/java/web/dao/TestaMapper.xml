@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="web.dao.TestaMapper">
+    <select id="getAll" resultType="web.bean.TestA">
+        select * from test_a
+    </select>
+
+    <select id="getTestA" resultType="web.bean.TestA">
+        select * from test_a where code = #{code}
+    </select>
+</mapper>
