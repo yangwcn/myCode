@@ -97,6 +97,18 @@
             <version>1.2.58</version>
         </dependency>
 
+        <!-- drools依赖 -->
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>7.20.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-api</artifactId>
+            <version>7.20.0.Final</version>
+        </dependency>
+
     </dependencies>
    <!-- <build>
         <plugins>
@@ -120,6 +132,11 @@
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
+                <!--<includes>
+                    <include>META-INF/kmodule.xml</include>
+                    <include>rules/Rules.drl</include>
+                </includes>
+                <targetPath>.</targetPath>-->
             </resource>
         </resources>
     </build>
