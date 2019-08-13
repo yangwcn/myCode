@@ -26,6 +26,10 @@ import java.util.concurrent.CopyOnWriteArraySet;
         encoders = {ServerEncoder.class}
 )
 public class MyWebSocket {
+
+    public MyWebSocket(){
+        System.out.println("MyWebSocket+========================");
+    }
     private final static Logger logger = LoggerFactory.getLogger(MyWebSocket.class);
 
     //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。若要实现服务端与单一客户端通信的话，可以使用Map来存放，其中Key可以为用户标识
@@ -82,56 +86,7 @@ public class MyWebSocket {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-        String curId = session.getId();
-
-        // 群发消息
-        for (MyWebSocket item : webSocketSet) {
-            try {
-                String id = item.session.getId();
-                if (curId.equals(id)) {
-                    if (message.equals("ping")) {
-                        item.sendMessage("tong");
-                    } else if (message.equals("login")) {
-                        boolean isSameAccountLong = false;
-                        String curOrgId = item.orgId;
-                        String curAccId = item.accId;
-                        // 两个相同账号登录，给前一个账号 发送消息.
-                        for (MyWebSocket item1 : webSocketSet) {
-                            String id1 = item1.session.getId();
-                            String curOrgId1 = item1.orgId;
-                            String curAccId1 = item1.accId;
-                            if (curOrgId.equalsIgnoreCase(curOrgId1) && curAccId.equalsIgnoreCase(curAccId1)) {
-                                if (!id.equalsIgnoreCase(id1)) {
-                                    Map<String, String> map = new HashMap<String, String>();
-                                    map.put("type", "hasSameAccountLogin");
-                                    map.put("orgId", curOrgId1);
-                                    map.put("accId", curAccId1);
-                                    item1.sendMessage(JSONObject.toJSONString(map));
-                                    isSameAccountLong = true;
-                                }
-                            }
-                        }
-                        if (isSameAccountLong) {
-                            Map<String, String> map = new HashMap<String, String>();
-                            map.put("type", "sameAccountRepeatLogin");
-                            map.put("orgId", curOrgId);
-                            map.put("accId", curAccId);
-                            item.sendMessage(JSONObject.toJSONString(map));
-                        }
-                    } else {
-                        StringBuffer sb = new StringBuffer();
-                        for (MyWebSocket item1 : webSocketSet) {
-                            sb.append("accId:" + item1.accId + "orgId:" + item1.orgId + "sessionId"
-                                    + item1.session.getId() + "</br>");
-                        }
-                        item.sendMessage(sb.toString());
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                continue;
-            }
-        }
+        System.out.println(message);
     }
 
     /**
