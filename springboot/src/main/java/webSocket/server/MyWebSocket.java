@@ -1,11 +1,14 @@
 package webSocket.server;
 
 import com.alibaba.fastjson.JSONObject;
+import kafka.KafkaManager;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import webSocket.util.ServerEncoder;
 import webSocket.util.WebSocketSession;
 
@@ -19,13 +22,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-@Component
-@Scope(value="prototype")
+@Service
+/*@Scope(value="prototype")*/
 @ServerEndpoint(
         value="/websocket/{orgId}/{accId}",
         encoders = {ServerEncoder.class}
 )
 public class MyWebSocket {
+    private static KafkaManager kafkaManager;
 
     public MyWebSocket(){
         System.out.println("MyWebSocket+========================");
@@ -59,6 +63,8 @@ public class MyWebSocket {
         webSocketSet.add(this);
         addOnlineCount();//在线数加1
         logger.info("有新连接加入！当前在线人数为" + getOnlineCount()+",orgId"+this.orgId+",accId"+ this.accId + ",session" + session.getId());
+
+        kafkaManager.writeMessage();
 
         try {
             afterConnectionEstablished(this.orgId , this.accId, session) ;
@@ -111,6 +117,16 @@ public class MyWebSocket {
         }
     }
 
+    public static void sendMessage(Object message){
+        try {
+            for (MyWebSocket myWebSocket : webSocketSet) {
+                myWebSocket.sendMessage(message.toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * 发生错误时调用
@@ -122,6 +138,11 @@ public class MyWebSocket {
         logger.info("连接发生了错误" + getOnlineCount());
         logger.error("发生错误：{}，Session ID： {}",error.getMessage(),session.getId());
         error.printStackTrace();
+    }
+
+    @Autowired
+    public void setKafkaManager(KafkaManager kafkaManager) {
+        MyWebSocket.kafkaManager = kafkaManager;
     }
 
     public static synchronized int getOnlineCount() {

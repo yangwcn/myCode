@@ -17,18 +17,18 @@ public class KafkaSender {
 
     //private JSON json;
 
-    public void send() {
-        Message message = new Message();
+    public void send(Message message) {
+        /*Message message = new Message();
         message.setId(System.currentTimeMillis());
         message.setMsg(UUID.randomUUID().toString());
-        message.setSendTime(new Date());
+        message.setSendTime(new Date());*/
         log.info("+++++++++++++++++++++  message = {}", JSON.toJSON(message).toString());
         kafkaTemplate.send("test", JSON.toJSON(message).toString());
     }
 
     public static void main(String[] args) {
         KafkaSender k = new KafkaSender();
-        k.send();
+        k.send(new Message());
     }
 }
 
