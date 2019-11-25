@@ -1,0 +1,12 @@
+这个是测试验证
+1.原生的验证标签@NotEmpty和@NotBlank这两个标签的有效性，我自己的环境没有问题，公司环境有问题。待解决
+
+2.验证当传入一个非数值的字符串时解析成Integer时是否报错
+确认默认会报错HttpMessageNotReadableException这个是jackson的报错。
+看到网络上有人说可以使用fastjson，实际测试依旧会报错HttpMessageNotReadableException,
+所以暂时想到，假如要接收参数，就先不要使用Int型接收。
+同理在使用Validated验证单参数的时候也会类似的报错NumberFormatException
+
+3.在接收多个参数list的时候可以使用一个自定义的验证数据ValidList
+
+4.报错结果可以统一用@ControllerAdvice注释的类中添加一个拦截方法来返回结果，不多描述
