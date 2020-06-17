@@ -1,5 +1,11 @@
 package designpattern.singleton;
 
+/**
+ * @author yangwei
+ * @date 2020-6-18 00:42:22 modify
+ * 用“双重检查加锁”，在getInstance()中减少使用同步
+ * 双锁
+ */
 public class Singleton2 {
     private static volatile Singleton2 singleton2;
 
