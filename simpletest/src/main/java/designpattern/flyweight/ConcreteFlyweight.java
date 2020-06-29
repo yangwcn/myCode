@@ -7,6 +7,6 @@ public class ConcreteFlyweight extends Flyweight {
 
     @Override
     public void operate() {
-        System.out.println("ConcreteFlyweight's operate");
+        System.out.println("ConcreteFlyweight's operate" + getIntrinsic() + extrinsic + this.hashCode());
     }
 }
