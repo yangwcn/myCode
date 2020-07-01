@@ -12,6 +12,9 @@ public class ConcreteBHandler extends AbstractHandler{
 
     @Override
     public void operator() {
-        System.out.println("ConcreteAHandler:"+ this.name + "operator");
+        System.out.println("ConcreteBHandler:"+ this.name + "operator");
+        if(null != this.getHandler()) {
+            this.getHandler().operator();
+        }
     }
 }

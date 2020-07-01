@@ -13,5 +13,8 @@ public class ConcreteAHandler extends AbstractHandler{
     @Override
     public void operator() {
         System.out.println("ConcreteAHandler:"+ this.name + "operator");
+        if(null != this.getHandler()) {
+            this.getHandler().operator();
+        }
     }
 }
